@@ -220,7 +220,7 @@ special_key_translate_table = {
 }
 
 def _keyDown(key):
-    if len(key) > 1 and key[0] in ['\xea', '\xeb', '\xec', '\xed']:
+    if len(key) > 1 and key[0] in ['\xe3', '\xea', '\xeb', '\xec', '\xed']:
       keyboardMapping[key] = key
     if key not in keyboardMapping or keyboardMapping[key] is None:
         return
@@ -256,7 +256,7 @@ def _normalKeyEvent(key, upDown):
         else:
             key_code = keyboardMapping[key]
 
-        if type(key_code) == str and key_code[0] in ['\xea', '\xeb', '\xec', '\xed']:
+        if type(key_code) == str and key_code[0] in ['\xe3', '\xea', '\xeb', '\xec', '\xed']:
           event = Quartz.CGEventCreateKeyboardEvent(None, 0x00, upDown == 'down')
           Quartz.CGEventKeyboardSetUnicodeString(event, 1, unicode(key_code))
         else:

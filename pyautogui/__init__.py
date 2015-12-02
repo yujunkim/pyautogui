@@ -967,7 +967,7 @@ def typewrite(message, interval=0.0, pause=None, _pause=True):
         elif len(hangul) > 0 and len(hangul) < 2:
             hangul += c
             continue
-        elif len(hangul) == 0 and c in ['\xea', '\xeb', '\xec', '\xed']:
+        elif len(hangul) == 0 and c in ['\xe3', '\xea', '\xeb', '\xec', '\xed']:
             hangul += c
             continue
 
