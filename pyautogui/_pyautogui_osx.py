@@ -1,5 +1,11 @@
-import time
+#!/usr/local/bin/python
+# coding: utf-8
+
 import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
+import time
 
 import Quartz
 import AppKit
@@ -214,6 +220,8 @@ special_key_translate_table = {
 }
 
 def _keyDown(key):
+    if len(key) > 1 and key[0] in ['\xea', '\xeb', '\xec', '\xed']:
+      keyboardMapping[key] = key
     if key not in keyboardMapping or keyboardMapping[key] is None:
         return
 
@@ -248,7 +256,11 @@ def _normalKeyEvent(key, upDown):
         else:
             key_code = keyboardMapping[key]
 
-        event = Quartz.CGEventCreateKeyboardEvent(None, key_code, upDown == 'down')
+        if type(key_code) == str and key_code[0] in ['\xea', '\xeb', '\xec', '\xed']:
+          event = Quartz.CGEventCreateKeyboardEvent(None, 0x00, upDown == 'down')
+          Quartz.CGEventKeyboardSetUnicodeString(event, 1, unicode(key_code))
+        else:
+          event = Quartz.CGEventCreateKeyboardEvent(None, key_code, upDown == 'down')
         Quartz.CGEventPost(Quartz.kCGHIDEventTap, event)
         time.sleep(0.01)
 

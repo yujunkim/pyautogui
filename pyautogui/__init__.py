@@ -956,9 +956,21 @@ def typewrite(message, interval=0.0, pause=None, _pause=True):
 
     _failSafeCheck()
 
+    hangul = ''
     for c in message:
         if len(c) > 1:
             c = c.lower()
+
+        if len(hangul) >= 2:
+            c = hangul + c
+            hangul = ''
+        elif len(hangul) > 0 and len(hangul) < 2:
+            hangul += c
+            continue
+        elif len(hangul) == 0 and c in ['\xea', '\xeb', '\xec', '\xed']:
+            hangul += c
+            continue
+
         press(c, _pause=False)
         time.sleep(interval)
         _failSafeCheck()
